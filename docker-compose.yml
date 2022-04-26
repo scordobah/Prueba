@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+    frontend:
+        container_name: frontend-docker
+        restart: always 
+        build: ./client 
+        ports:
+            - "3000:3000" 
+        links:
+            - backend
+        volumes:
+          - ./client:/usr/src/app/frontend
+
+    backend:
+      container_name: backend_docker
+      restart: always
+      build: ./server
+      ports:
+          - "8080:8080"
+      links:
+          - database
+      volumes:
+          - ./server:/usr/src/app/backend
+      
+    database:
+      container_name: database_docker
+      image: mongo
+      ports:
+          - "27018:27017"
+      logging:
+        driver: none
